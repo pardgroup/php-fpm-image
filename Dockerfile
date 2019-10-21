@@ -6,6 +6,7 @@ FROM php:${PHP_VERSION}-fpm
 RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get install -y --no-install-recommends \
+    apt-utils \
     curl \
     libmemcached-dev \
     libzip-dev \
@@ -22,7 +23,9 @@ RUN apt-get update && \
     libpq-dev \
     libssl-dev \
     gettext \
-    g++
+    g++ \
+  && apt-get autoremove -y \
+  && apt-get clean
 
 # Install the PHP extention using "docker-php-ext"
 RUN docker-php-ext-install gettext \
@@ -43,10 +46,3 @@ RUN docker-php-ext-install gettext \
 RUN apt-get -y install libmcrypt-dev && \
   pecl install mcrypt-1.0.2 && \
   docker-php-ext-enable mcrypt
-
-# Install 'xdebug-2.5.5' for PHP 7
-RUN pecl install xdebug && docker-php-ext-enable xdebug \
-  && echo 'zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)' >> /usr/local/etc/php/php.ini \
-  && echo 'xdebug.remote_port=9000' >> /usr/local/etc/php/php.ini \
-  && echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/php.ini \
-  && echo 'xdebug.remote_connect_back=1' >> /usr/local/etc/php/php.ini
