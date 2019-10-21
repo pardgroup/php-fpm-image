@@ -50,7 +50,3 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug \
   && echo 'xdebug.remote_port=9000' >> /usr/local/etc/php/php.ini \
   && echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/php.ini \
   && echo 'xdebug.remote_connect_back=1' >> /usr/local/etc/php/php.ini
-
-# Sync extension files in php container
-RUN echo extension=gettext.so > /usr/local/etc/php/conf.d/gettext.ini
-RUN echo extension=mcrypt.so > /usr/local/etc/php/php.ini
