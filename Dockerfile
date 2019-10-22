@@ -27,7 +27,7 @@ RUN apt-get update && \
   && apt-get autoremove -y \
   && apt-get clean
 
-# Install the PHP extention using "docker-php-ext"
+# Install the PHP extention using "docker-php"
 RUN docker-php-ext-install gettext \
   && docker-php-ext-configure intl \
   && docker-php-ext-install intl \
@@ -46,3 +46,18 @@ RUN docker-php-ext-install gettext \
 RUN apt-get -y install libmcrypt-dev && \
   pecl install mcrypt-1.0.2 && \
   docker-php-ext-enable mcrypt
+
+# Install mongodb extention using "pecl" and "docker-php"
+RUN pecl install mongodb \
+  && docker-php-ext-enable mongodb
+
+# Install 'xdebug-2.5.5' for PHP 7
+RUN pecl install xdebug && docker-php-ext-enable xdebug \
+  && echo 'zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)' >> /usr/local/etc/php/php.ini
+
+# Extensions/Parameters enabled in php.ini:
+#
+# extension=mongodb.so
+# xdebug.remote_port=9000
+# xdebug.remote_enable=1
+# xdebug.remote_connect_back=1
