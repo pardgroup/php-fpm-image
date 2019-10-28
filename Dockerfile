@@ -42,6 +42,8 @@ RUN docker-php-ext-install gettext \
   && docker-php-ext-install gd \
   && rm -rf /var/lib/apt/lists/*
 
+COPY configuration/php7.3.ini /usr/local/etc/php/php.ini
+
 # Install mcrypt in PHP > 7.1 (deprecated)
 RUN apt-get -y install libmcrypt-dev && \
   pecl install mcrypt-1.0.2 && \
@@ -51,13 +53,13 @@ RUN apt-get -y install libmcrypt-dev && \
 RUN pecl install mongodb \
   && docker-php-ext-enable mongodb
 
+# Install redis extention using "pecl" and "docker-php"
+RUN pecl install -o -f redis \
+  &&  rm -rf /tmp/pear \
+  &&  docker-php-ext-enable redis
+
 # Install 'xdebug-2.5.5' for PHP 7
-RUN pecl install xdebug && docker-php-ext-enable xdebug \
+RUN pecl install xdebug \
+  && docker-php-ext-enable xdebug \
   && echo 'zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)' >> /usr/local/etc/php/php.ini
 
-# Extensions/Parameters enabled in php.ini:
-#
-# extension=mongodb.so
-# xdebug.remote_port=9000
-# xdebug.remote_enable=1
-# xdebug.remote_connect_back=1
