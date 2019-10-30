@@ -42,7 +42,7 @@ RUN docker-php-ext-install gettext \
   && docker-php-ext-install gd \
   && rm -rf /var/lib/apt/lists/*
 
-COPY configuration/ /usr/local/etc/php/
+ADD https://raw.githubusercontent.com/pardgroup/php-fpm-image/master/configuration/php.ini /usr/local/etc/php/php.ini
 
 # Install mcrypt in PHP > 7.1 (deprecated)
 RUN apt-get -y install libmcrypt-dev && \
