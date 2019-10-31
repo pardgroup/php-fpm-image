@@ -42,7 +42,7 @@ RUN docker-php-ext-install gettext \
   && docker-php-ext-install gd \
   && rm -rf /var/lib/apt/lists/*
 
-ADD https://raw.githubusercontent.com/pardgroup/php-fpm-image/master/configuration/php.ini /usr/local/etc/php/php.ini
+COPY configuration/php.ini /usr/local/etc/php/php.ini
 
 # Install mcrypt in PHP > 7.1 (deprecated)
 RUN apt-get -y install libmcrypt-dev && \
@@ -60,5 +60,6 @@ RUN pecl install -o -f redis \
 
 # Install 'xdebug-2.5.5' for PHP 7
 RUN pecl install xdebug \
-  && docker-php-ext-enable xdebug \
-  && echo 'zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)' >> /usr/local/etc/php/php.ini
+  && docker-php-ext-enable xdebug
+
+RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> /usr/local/etc/php/php.ini
