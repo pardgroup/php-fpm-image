@@ -4,7 +4,6 @@ FROM php:${PHP_VERSION}-fpm
 
 # Install the PHP extention using "apt"
 RUN apt-get update && \
-  apt-get upgrade -y && \
   apt-get install -y --no-install-recommends \
     apt-utils \
     curl \
@@ -13,6 +12,8 @@ RUN apt-get update && \
     libz-dev \
     libpq-dev \
     libjpeg-dev \
+    libmagickwand-dev \
+    libmagickcore-dev \
     libpng-dev \
     libfreetype6-dev \
     libssl-dev \
@@ -61,5 +62,9 @@ RUN pecl install -o -f redis \
 # Install 'xdebug-2.5.5' for PHP 7
 RUN pecl install xdebug \
   && docker-php-ext-enable xdebug
+
+# Install 'imagick' for PHP 7
+RUN pecl install imagick \
+  && docker-php-ext-enable imagick
 
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> /usr/local/etc/php/php.ini
