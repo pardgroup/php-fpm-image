@@ -67,4 +67,7 @@ RUN pecl install xdebug \
 RUN pecl install imagick \
   && docker-php-ext-enable imagick
 
+# Install composer and add its bin to the PATH.
+RUN echo "export JAVA_HOME=/usr/bin/java" >> ~/.bashrc
+
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> /usr/local/etc/php/php.ini
