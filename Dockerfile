@@ -67,6 +67,14 @@ RUN pecl install xdebug \
 RUN pecl install imagick \
   && docker-php-ext-enable imagick
 
+# Install 'Java jre 8'
+RUN mkdir -p /usr/lib/jvm
+ADD https://pardgroup-files.s3-eu-west-1.amazonaws.com/jre-8u241-linux-x64.tar.gz /usr/lib/jvm
+RUN tar zxvf /usr/lib/jvm/jre-8u241-linux-x64.tar.gz -C /usr/lib/jvm \
+  && rm -f /usr/lib/jvm/jre-8u241-linux-x64.tar.gz \
+  && update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.8.0_241/bin/java" 1 \
+  && update-alternatives --config java
+
 # Install composer and add its bin to the PATH.
 RUN echo "export JAVA_HOME=/usr/bin/java" >> ~/.bashrc
 
