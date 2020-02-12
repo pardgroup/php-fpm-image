@@ -29,14 +29,14 @@ RUN apt-get update && \
   && apt-get clean
 
 # Install the PHP extention using "docker-php"
-RUN docker-php-ext-install gettext \
-  && docker-php-ext-configure intl \
-  && docker-php-ext-install intl \
-  && docker-php-ext-install zip \
-  && docker-php-ext-install pdo_mysql \
-  && docker-php-ext-install exif \
-  && docker-php-ext-enable exif \
-  && docker-php-ext-configure gd \
+RUN docker-php-ext-install gettext
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install zip
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install exif
+RUN docker-php-ext-enable exif
+RUN docker-php-ext-configure gd \
     --enable-gd-native-ttf \
     --with-jpeg-dir=/usr/lib \
     --with-freetype-dir=/usr/include/freetype2 \
