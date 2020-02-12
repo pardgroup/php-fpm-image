@@ -35,14 +35,12 @@ RUN docker-php-ext-install gettext \
   && docker-php-ext-install zip \
   && docker-php-ext-install pdo_mysql \
   && docker-php-ext-install exif \
-  && docker-php-ext-enable exif
-
-RUN docker-php-ext-configure gd \
+  && docker-php-ext-enable exif \
+  && docker-php-ext-configure gd \
     --with-jpeg-dir=/usr/lib/ \
     --with-freetype-dir=/usr/include/ \
-  && docker-php-ext-install gd
-
-RUN rm -rf /var/lib/apt/lists/*
+  && docker-php-ext-install gd \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY configuration/php.ini /usr/local/etc/php/php.ini
 
